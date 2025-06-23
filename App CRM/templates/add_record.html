@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Registro - {{ campaign_name }} - XooCRM</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/fav.png') }}" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/002/418/769/non_2x/abstract-red-background-free-vector.jpg');
+            background-attachment: fixed;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header-navigation {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .back-btn {
+            background: #95a5a6;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .back-btn:hover {
+            background: #7f8c8d;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .campaign-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .campaign-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .campaign-selector select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        .contenedor {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 16px;
+        }
+        
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input[type="text"]:focus, input[type="tel"]:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            transition: all 0.3s;
+            margin-right: 15px;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #21618c 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #7f8c8d 0%, #566573 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(149, 165, 166, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            border-left: 5px solid;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-color: #28a745;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #dc3545;
+        }
+        
+        .form-actions {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        .form-info {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            color: #0c5460;
+        }
+        
+        .form-info h3 {
+            margin-bottom: 10px;
+            color: #0c5460;
+        }
+        
+        .input-hint {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .header-navigation {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-left {
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Header -->
+        <div class="header-navigation">
+            <div class="nav-left">
+                <a href="{{ url_for('campaign_index', campaign_name=campaign_name) }}" class="back-btn">
+                    ← Volver a {{ campaign_name }}
+                </a>
+                <h2 class="campaign-title">➕ Nuevo Registro</h2>
+            </div>
+            
+            <div class="campaign-selector">
+                <span>Cambiar a:</span>
+                <select id="campaignSwitch" onchange="switchCampaign()">
+                    <option value="">Seleccionar campaña...</option>
+                    {% for camp in campaigns %}
+                        {% if camp != campaign_name %}
+                        <option value="{{ camp }}">{{ camp }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <!-- Logo -->
+        <div class="contenedor">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="XooCRM Logo"> 
+        </div>
+        
+        <div class="form-container">
+            <h1>➕ Agregar Nuevo Registro</h1>
+            <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">
+                Campaña: <strong>{{ campaign_name }}</strong>
+            </p>
+            
+            <!-- Mensajes Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'success' if category == 'success' else 'error' }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <div class="form-info">
+                <h3>📋 Información del Formulario</h3>
+                <p>Complete la información del nuevo contacto. Los campos marcados con <span class="required">*</span> son obligatorios.</p>
+            </div>
+            
+            <form method="post" action="{{ url_for('add_record', campaign_name=campaign_name) }}" id="addForm">
+                <div class="form-group">
+                    <label for="Nombre">👤 Nombre Completo <span class="required">*</span></label>
+                    <input type="text" id="Nombre" name="Nombre" required 
+                           placeholder="Ingrese el nombre completo del contacto">
+                    <div class="input-hint">Ejemplo: Juan Carlos Pérez García</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="Cedula">🆔 Cédula <span class="required">*</span></label>
+                    <input type="text" id="Cedula" name="Cedula" required 
+                           placeholder="Ingrese la cédula (ej: 001-1234567-8)"
+                           maxlength="13">
+                    <div class="input-hint">Formato: XXX-XXXXXXX-X (se formatea automáticamente)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="Telefono">📱 Teléfono Principal <span class="required">*</span></label>
+                    <input type="tel" id="Telefono" name="Telefono" required 
+                           placeholder="Ingrese el teléfono principal">
+                    <div class="input-hint">Ejemplo: +1 809 123 4567 (se formatea automáticamente)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="Telefono2">📱 Teléfono Secundario (Opcional)</label>
+                    <input type="tel" id="Telefono2" name="Telefono2" 
+                           placeholder="Ingrese el teléfono secundario (opcional)">
+                    <div class="input-hint">Campo opcional - puede dejarlo vacío si no tiene segundo teléfono</div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">✅ Guardar Registro</button>
+                    <a href="{{ url_for('campaign_index', campaign_name=campaign_name) }}" class="btn btn-secondary">↩️ Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Función para cambiar de campaña
+        function switchCampaign() {
+            const select = document.getElementById('campaignSwitch');
+            const selectedCampaign = select.value;
+            
+            if (selectedCampaign) {
+                window.location.href = `{{ url_for('add_record', campaign_name='') }}${encodeURIComponent(selectedCampaign)}`;
+            }
+        }
+        
+        // Formatear cédula automáticamente
+        document.getElementById('Cedula').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            if (value.length >= 11) {
+                value = value.substring(0, 11) + '-' + value.substring(11, 12);
+            }
+            if (value.length > 13) {
+                value = value.substring(0, 13);
+            }
+            e.target.value = value;
+        });
+        
+        // Formatear teléfono automáticamente para ambos campos
+        document.getElementById('Telefono').addEventListener('input', formatPhone);
+        document.getElementById('Telefono2').addEventListener('input', formatPhone);
+        
+        function formatPhone(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.startsWith('1') && value.length === 11) {
+                    // Formato para números USA: +1 XXX XXX XXXX
+                    value = '+1 ' + value.substring(1, 4) + ' ' + value.substring(4, 7) + ' ' + value.substring(7);
+                } else if (value.length === 10 && (value.startsWith('809') || value.startsWith('829') || value.startsWith('849'))) {
+                    // Formato para números DR: +1 XXX XXX XXXX
+                    value = '+1 ' + value.substring(0, 3) + ' ' + value.substring(3, 6) + ' ' + value.substring(6);
+                } else if (value.length === 10) {
+                    // Formato genérico para 10 dígitos
+                    value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6);
+                }
+            }
+            e.target.value = value;
+        }
+        
+        // Validar formulario antes de enviar
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            const nombre = document.getElementById('Nombre').value.trim();
+            const cedula = document.getElementById('Cedula').value.trim();
+            const telefono = document.getElementById('Telefono').value.trim();
+            
+            if (!nombre || !cedula || !telefono) {
+                e.preventDefault();
+                alert('⚠️ Por favor, complete todos los campos obligatorios.');
+                return false;
+            }
+            
+            if (cedula.length < 13) {
+                e.preventDefault();
+                alert('⚠️ Por favor, ingrese una cédula válida (ej: 001-1234567-8).');
+                document.getElementById('Cedula').focus();
+                return false;
+            }
+            
+            if (telefono.length < 8) {
+                e.preventDefault();
+                alert('⚠️ Por favor, ingrese un teléfono válido.');
+                document.getElementById('Telefono').focus();
+                return false;
+            }
+            
+            // Confirmar antes de guardar
+            const confirmMessage = `¿Confirma que desea agregar este registro?\n\nNombre: ${nombre}\nCédula: ${cedula}\nTeléfono: ${telefono}`;
+            if (!confirm(confirmMessage)) {
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+        // Auto-hide flash messages
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alert => {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.5s';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000);
+        
+        // Focus automático en el primer campo
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('Nombre').focus();
+        });
+        
+        // Prevenir envío múltiple del formulario
+        let isSubmitting = false;
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            if (isSubmitting) {
+                e.preventDefault();
+                return false;
+            }
+            isSubmitting = true;
+            
+            // Re-habilitar después de un tiempo por si hay error
+            setTimeout(() => {
+                isSubmitting = false;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
